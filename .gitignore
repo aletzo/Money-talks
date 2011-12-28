@@ -1,0 +1,4 @@
+cache/*
+log/*
+web/uploads/*
+data/lucene/*
