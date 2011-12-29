@@ -1,0 +1,54 @@
+options:
+  type: InnoDB
+  collate: utf8_unicode_ci
+  charset: utf8
+
+
+Account:
+  actAs:
+    SoftDelete:
+    Timestampable:
+  columns:
+    user_id: { type: integer }
+    name:    { type: string(100), notnull: true }
+    total:   { type: string(100), notnull: true }
+  relations:
+    User:    { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Accounts, onDelete: CASCADE }
+
+
+Action:
+  actAs:
+    SoftDelete:
+    Timestampable:
+  columns:
+    account_id: { type: integer }
+    user_id:    { type: integer }
+    name:       { type: string(100), notnull: true }
+    date:       { type: date, notnull: true }
+    deposit:    { type: string(100), notnull: true }
+    withdrawal: { type: string(100), notnull: true }
+    total:      { type: string(100), notnull: true }
+  relations:
+    Account: { local: account_id, foreign: id, foreignAlias: Actions, onDelete: CASCADE }
+    User:    { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Actions, onDelete: CASCADE }
+
+Tag:
+  actAs:
+    SoftDelete:
+    Timestampable:
+  columns:
+    user_id:   { type: integer }
+    name:       { type: string(100), notnull: true }
+  relations:
+    User:  { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Tags, onDelete: CASCADE }
+
+
+ActionTag:
+  columns:
+    action_id: { type: integer, primary: true }
+    tag_id:    { type: integer, primary: true }
+  relations:
+    Action:  { local: action_id, foreign: id, foreignAlias: Tags, onDelete: CASCADE }
+    Tag:  { local: tag_id, foreign: id, foreignAlias: Actions, onDelete: CASCADE }
+
+

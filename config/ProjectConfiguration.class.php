@@ -5,9 +5,16 @@ sfCoreAutoload::register();
 
 class ProjectConfiguration extends sfProjectConfiguration
 {
-  public function setup()
-  {
-    $this->enablePlugins('sfDoctrinePlugin');
-    $this->enablePlugins('sfDoctrineGuardPlugin');
-  }
+    public function setup()
+    {
+        $this->enablePlugins('sfDoctrinePlugin');
+        $this->enablePlugins('sfDoctrineGuardPlugin');
+
+        $parameters = array(
+            'project_name'            => 'Money talks',
+            'project_title_delimeter' => ' - '
+        );
+
+        sfConfig::add($parameters);
+    }
 }

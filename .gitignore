@@ -1,4 +1,7 @@
+*.swp
 cache/*
 log/*
 web/uploads/*
 data/lucene/*
+data/sql/*
+nbproject/*

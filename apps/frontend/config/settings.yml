@@ -27,9 +27,17 @@ all:
     # Form security secret (CSRF protection)
     csrf_secret:            sdjkfhkjh3kjkj32h
 
+    enabled_modules:      [auth, default, page, sfGuardAuth, sfGuardForgotPassword, sfGuardRegister, sfGuardUser]
+
     # Output escaping settings
     escaping_strategy:      true
     escaping_method:        ESC_SPECIALCHARS
 
+    login_module:           sfGuardAuth
+    login_action:           signin
+    
+    secure_module:          sfGuardAuth
+    secure_action:          secure
+    #
     # Enable the database manager
     use_database:           true
