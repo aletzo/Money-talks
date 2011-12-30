@@ -12,4 +12,63 @@
  */
 class Action extends BaseAction
 {
+    
+    public function fetchDeposit()
+    {
+        //TODO: decrypt this
+        return $this->deposit;
+    }
+
+    public function storeDeposit($deposit)
+    {
+        //TODO: encrypt this
+        $this->deposit = $deposit;
+        $this->save();
+    }
+
+    public function fetchWithdrawal()
+    {
+        //TODO: decrypt this
+        return $this->withdrawal;
+    }
+
+    public function storeWithdrawal($withdrawal)
+    {
+        //TODO: encrypt this
+        $this->withdrawal = $withdrawal;
+        $this->save();
+    }
+
+    public function fetchBalance()
+    {
+        //TODO: decrypt this
+        return $this->balance;
+    }
+
+    public function storeBalance($balance)
+    {
+        //TODO: encrypt this
+        $this->balance = $balance;
+        $this->save();
+    }
+
+    public function postSave($event)
+    {
+        $balance = $this->Account->fetchBalance();
+
+        $deposit = $this->fetchDeposit();
+
+        if ($deposit) {
+            $balance += $deposit;
+        }
+
+        $withdrawal = $this->fetchWithdrawal();
+
+        if ($withdrawal) {
+            $balance -= $withdrawal;
+        }
+
+        $this->Account->storeBalance($balance);
+    }
+
 }

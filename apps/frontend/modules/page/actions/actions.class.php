@@ -3,7 +3,7 @@
 /**
  * page actions.
  *
- * @package    cinemalovr
+ * @package    moneytalks
  * @subpackage page
  * @author     ajo@mydevnull.net
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $

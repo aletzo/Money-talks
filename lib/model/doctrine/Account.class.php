@@ -12,4 +12,18 @@
  */
 class Account extends BaseAccount
 {
+
+    public function fetchBalance()
+    {
+        //TODO: decrypt this
+        return $this->balance;
+    }
+
+    public function storeBalance($balance)
+    {
+        //TODO: encrypt this
+        $this->balance = $balance;
+        $this->save();
+    }
+
 }

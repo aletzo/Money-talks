@@ -8,7 +8,7 @@ class myUser extends sfGuardSecurityUser
     {
         $this->header = $header;
 
-        sfContext::getInstance()->getResponse()->setTitle($header . sfConfig::get('project_title_delimeter') . sfConfig::get('project_name'));
+        sfContext::getInstance()->getResponse()->setTitle(strip_tags($header) . sfConfig::get('project_title_delimeter') . sfConfig::get('project_name'));
     }
 
     public function getHeader()

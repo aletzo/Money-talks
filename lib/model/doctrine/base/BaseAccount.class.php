@@ -7,18 +7,18 @@
  * 
  * @property integer $user_id
  * @property string $name
- * @property string $total
+ * @property string $balance
  * @property sfGuardUser $User
  * @property Doctrine_Collection $Actions
  * 
  * @method integer             getUserId()  Returns the current record's "user_id" value
  * @method string              getName()    Returns the current record's "name" value
- * @method string              getTotal()   Returns the current record's "total" value
+ * @method string              getBalance() Returns the current record's "balance" value
  * @method sfGuardUser         getUser()    Returns the current record's "User" value
  * @method Doctrine_Collection getActions() Returns the current record's "Actions" collection
  * @method Account             setUserId()  Sets the current record's "user_id" value
  * @method Account             setName()    Sets the current record's "name" value
- * @method Account             setTotal()   Sets the current record's "total" value
+ * @method Account             setBalance() Sets the current record's "balance" value
  * @method Account             setUser()    Sets the current record's "User" value
  * @method Account             setActions() Sets the current record's "Actions" collection
  * 
@@ -40,7 +40,7 @@ abstract class BaseAccount extends sfDoctrineRecord
              'notnull' => true,
              'length' => 100,
              ));
-        $this->hasColumn('total', 'string', 100, array(
+        $this->hasColumn('balance', 'string', 100, array(
              'type' => 'string',
              'notnull' => true,
              'length' => 100,

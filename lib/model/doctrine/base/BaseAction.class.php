@@ -11,10 +11,11 @@
  * @property date $date
  * @property string $deposit
  * @property string $withdrawal
- * @property string $total
+ * @property string $balance
  * @property Account $Account
  * @property sfGuardUser $User
  * @property Doctrine_Collection $Tags
+ * @property Doctrine_Collection $ActionTag
  * 
  * @method integer             getAccountId()  Returns the current record's "account_id" value
  * @method integer             getUserId()     Returns the current record's "user_id" value
@@ -22,20 +23,22 @@
  * @method date                getDate()       Returns the current record's "date" value
  * @method string              getDeposit()    Returns the current record's "deposit" value
  * @method string              getWithdrawal() Returns the current record's "withdrawal" value
- * @method string              getTotal()      Returns the current record's "total" value
+ * @method string              getBalance()    Returns the current record's "balance" value
  * @method Account             getAccount()    Returns the current record's "Account" value
  * @method sfGuardUser         getUser()       Returns the current record's "User" value
  * @method Doctrine_Collection getTags()       Returns the current record's "Tags" collection
+ * @method Doctrine_Collection getActionTag()  Returns the current record's "ActionTag" collection
  * @method Action              setAccountId()  Sets the current record's "account_id" value
  * @method Action              setUserId()     Sets the current record's "user_id" value
  * @method Action              setName()       Sets the current record's "name" value
  * @method Action              setDate()       Sets the current record's "date" value
  * @method Action              setDeposit()    Sets the current record's "deposit" value
  * @method Action              setWithdrawal() Sets the current record's "withdrawal" value
- * @method Action              setTotal()      Sets the current record's "total" value
+ * @method Action              setBalance()    Sets the current record's "balance" value
  * @method Action              setAccount()    Sets the current record's "Account" value
  * @method Action              setUser()       Sets the current record's "User" value
  * @method Action              setTags()       Sets the current record's "Tags" collection
+ * @method Action              setActionTag()  Sets the current record's "ActionTag" collection
  * 
  * @package    moneytalks
  * @subpackage model
@@ -72,7 +75,7 @@ abstract class BaseAction extends sfDoctrineRecord
              'notnull' => true,
              'length' => 100,
              ));
-        $this->hasColumn('total', 'string', 100, array(
+        $this->hasColumn('balance', 'string', 100, array(
              'type' => 'string',
              'notnull' => true,
              'length' => 100,
@@ -96,7 +99,13 @@ abstract class BaseAction extends sfDoctrineRecord
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
 
-        $this->hasMany('ActionTag as Tags', array(
+        $this->hasMany('Tag as Tags', array(
+             'refClass' => 'ActionTag',
+             'local' => 'action_id',
+             'foreign' => 'tag_id',
+             'onDelete' => 'CASCADE'));
+
+        $this->hasMany('ActionTag', array(
              'local' => 'id',
              'foreign' => 'action_id'));
 

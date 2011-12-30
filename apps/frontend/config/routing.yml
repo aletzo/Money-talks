@@ -17,6 +17,42 @@ openid_login:
   url: /openid-login
   param: { module: sfGuardAuth, action: login }
 
+account_list:
+  url: /accounts
+  param: { module: account, action: list }
+
+account_new:
+  url: /account-create
+  param: { module: account, action: new }
+
+account_edit:
+  url: /account-update/:id
+  param: { module: account, action: edit }
+
+account_delete:
+  url: /account-delete/:id
+  param: { module: account, action: delete }
+
+account_view:
+  url: /account/:id
+  param: { module: account, action: view }
+  
+action_new:
+  url: /action-create
+  param: { module: action, action: new }
+
+action_edit:
+  url: /action-update/:id
+  param: { module: action, action: update }
+
+action_delete:
+  url: /action-delete/:id
+  param: { module: action, action: delete }
+
+report_list:
+  url: /reports
+  param: { module: report, action: list }
+
 # generic rules
 # please, remove them by adding more specific rules
 default_index:

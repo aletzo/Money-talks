@@ -18,6 +18,10 @@
 
                     <ul class="nav">
                         <li><a href="<?php echo url_for('@homepage') ?>"><?php echo __('Home') ?></a></li>
+                        <?php if ($sf_user->isAuthenticated()) : ?>
+                            <li><a href="<?php echo url_for('@account_list') ?>"><?php echo __('Accounts') ?></a></li>
+                            <li><a href="<?php echo url_for('@report_list') ?>"><?php echo __('Reports') ?></a></li>
+                        <?php endif ?>
                         <li><a href="<?php echo url_for('@about') ?>"><?php echo __('About') ?></a></li>
                         <li><a href="<?php echo url_for('@contact') ?>"><?php echo __('Contact') ?></a></li>
                     </ul>
@@ -27,29 +31,24 @@
             </div>
         </div>
 
-    <div class="container">
+        <div class="container">
 
-      <div class="content">
-        <div class="page-header">
-          <h1><?php echo $sf_user->getHeader() ?></h1>
-        </div>
-        <div class="row">
-          <div class="span10">
-            <?php echo $sf_content ?>
-          </div>
-          <div class="span6">
-            <h3>Secondary content</h3>
-          </div>
-        </div>
-      </div>
+            <div class="content">
+                <div class="page-header">
+                    <h1><?php echo html_entity_decode($sf_user->getHeader()) ?></h1>
+                </div>
+                <div class="row">
+                    <div class="span16">
+                        <?php include_partial('global/flash') ?>
+                        <?php echo $sf_content ?>
+                    </div>
+                </div>
+            </div>
 
-      <footer>
-        <p>&copy; Company 2011</p>
-
-      </footer>
-
-    </div> <!-- /container -->
-        
+            <footer>
+                <p>&lt;vanity card><a href="http://mydevnull.net" target="_blank">~/dev/null</a>&lt;/vanity card></p>
+            </footer>
+        </div> <!-- /container -->
         <?php include_javascripts() ?>
     </body>
 </html>

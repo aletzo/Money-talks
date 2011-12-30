@@ -7,17 +7,23 @@
  * 
  * @property integer $user_id
  * @property string $name
+ * @property string $color
  * @property sfGuardUser $User
  * @property Doctrine_Collection $Actions
+ * @property Doctrine_Collection $ActionTag
  * 
- * @method integer             getUserId()  Returns the current record's "user_id" value
- * @method string              getName()    Returns the current record's "name" value
- * @method sfGuardUser         getUser()    Returns the current record's "User" value
- * @method Doctrine_Collection getActions() Returns the current record's "Actions" collection
- * @method Tag                 setUserId()  Sets the current record's "user_id" value
- * @method Tag                 setName()    Sets the current record's "name" value
- * @method Tag                 setUser()    Sets the current record's "User" value
- * @method Tag                 setActions() Sets the current record's "Actions" collection
+ * @method integer             getUserId()    Returns the current record's "user_id" value
+ * @method string              getName()      Returns the current record's "name" value
+ * @method string              getColor()     Returns the current record's "color" value
+ * @method sfGuardUser         getUser()      Returns the current record's "User" value
+ * @method Doctrine_Collection getActions()   Returns the current record's "Actions" collection
+ * @method Doctrine_Collection getActionTag() Returns the current record's "ActionTag" collection
+ * @method Tag                 setUserId()    Sets the current record's "user_id" value
+ * @method Tag                 setName()      Sets the current record's "name" value
+ * @method Tag                 setColor()     Sets the current record's "color" value
+ * @method Tag                 setUser()      Sets the current record's "User" value
+ * @method Tag                 setActions()   Sets the current record's "Actions" collection
+ * @method Tag                 setActionTag() Sets the current record's "ActionTag" collection
  * 
  * @package    moneytalks
  * @subpackage model
@@ -37,6 +43,11 @@ abstract class BaseTag extends sfDoctrineRecord
              'notnull' => true,
              'length' => 100,
              ));
+        $this->hasColumn('color', 'string', 6, array(
+             'type' => 'string',
+             'notnull' => true,
+             'length' => 6,
+             ));
 
         $this->option('type', 'InnoDB');
         $this->option('collate', 'utf8_unicode_ci');
@@ -51,7 +62,13 @@ abstract class BaseTag extends sfDoctrineRecord
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
 
-        $this->hasMany('ActionTag as Actions', array(
+        $this->hasMany('Action as Actions', array(
+             'refClass' => 'ActionTag',
+             'local' => 'tag_id',
+             'foreign' => 'action_id',
+             'onDelete' => 'CASCADE'));
+
+        $this->hasMany('ActionTag', array(
              'local' => 'id',
              'foreign' => 'tag_id'));
 

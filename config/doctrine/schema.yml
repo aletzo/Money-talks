@@ -11,7 +11,7 @@ Account:
   columns:
     user_id: { type: integer }
     name:    { type: string(100), notnull: true }
-    total:   { type: string(100), notnull: true }
+    balance: { type: string(100), notnull: true }
   relations:
     User:    { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Accounts, onDelete: CASCADE }
 
@@ -27,20 +27,24 @@ Action:
     date:       { type: date, notnull: true }
     deposit:    { type: string(100), notnull: true }
     withdrawal: { type: string(100), notnull: true }
-    total:      { type: string(100), notnull: true }
+    balance:    { type: string(100), notnull: true }
   relations:
     Account: { local: account_id, foreign: id, foreignAlias: Actions, onDelete: CASCADE }
     User:    { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Actions, onDelete: CASCADE }
+    Tags:    { class: Tag, refClass: ActionTag, local: action_id, foreign: tag_id, foreignAlias: Actions, onDelete: CASCADE }
+
 
 Tag:
   actAs:
     SoftDelete:
     Timestampable:
   columns:
-    user_id:   { type: integer }
-    name:       { type: string(100), notnull: true }
+    user_id: { type: integer }
+    name:    { type: string(100), notnull: true }
+    color:   { type: string(6), notnull: true }
   relations:
-    User:  { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Tags, onDelete: CASCADE }
+    User:    { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Tags, onDelete: CASCADE }
+    Actions: { class: Action, refClass: ActionTag, local: tag_id, foreign: action_id, foreignAlias: Tags, onDelete: CASCADE }
 
 
 ActionTag:
@@ -48,7 +52,7 @@ ActionTag:
     action_id: { type: integer, primary: true }
     tag_id:    { type: integer, primary: true }
   relations:
-    Action:  { local: action_id, foreign: id, foreignAlias: Tags, onDelete: CASCADE }
-    Tag:  { local: tag_id, foreign: id, foreignAlias: Actions, onDelete: CASCADE }
+    Action: { local: action_id, foreign: id, onDelete: CASCADE }
+    Tag:    { local: tag_id, foreign: id, onDelete: CASCADE }
 
 

@@ -7,6 +7,7 @@
  */
 class AccountTable extends Doctrine_Table
 {
+
     /**
      * Returns an instance of this class.
      *
@@ -16,4 +17,28 @@ class AccountTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('Account');
     }
+
+    static public function fetch($userId, $accountId = false, $deep = false, $toArray = false)
+    {
+        $q = Doctrine_Query::create()
+            ->from('Account a')
+            ->andWhere('a.user_id = ?', $userId)
+            ->andWhere('a.deleted_at is null'); //softdelete
+
+        if ($accountId) {
+            $q->where('a.id = ?', $accountId);
+        }
+
+        if ($deep) {
+            $q ->leftJoin('a.Actions c')
+                ->leftJoin('c.Tags t');
+        }
+
+        if ($toArray) {
+            $q->setHydrationMode(Doctrine_Core::HYDRATE_ARRAY);
+        }
+
+        return $accountId ? $q->fetchOne() : $q->execute();
+    }
+
 }

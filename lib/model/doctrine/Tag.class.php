@@ -12,4 +12,10 @@
  */
 class Tag extends BaseTag
 {
+
+    public function postInsert($event)
+    {
+        //TODO: insert a unique per user random color from a predefined list
+    }
+
 }
