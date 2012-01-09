@@ -26,7 +26,7 @@ account_new:
   param: { module: account, action: new }
 
 account_edit:
-  url: /account-update/:id
+  url: /account-edit/:id
   param: { module: account, action: edit }
 
 account_delete:
@@ -42,8 +42,8 @@ action_new:
   param: { module: action, action: new }
 
 action_edit:
-  url: /action-update/:id
-  param: { module: action, action: update }
+  url: /action-edit/:id
+  param: { module: action, action: edit }
 
 action_delete:
   url: /action-delete/:id
@@ -52,6 +52,10 @@ action_delete:
 report_list:
   url: /reports
   param: { module: report, action: list }
+
+lyrics:
+  url: /lyrics
+  param: { module: page, action: lyrics }
 
 # generic rules
 # please, remove them by adding more specific rules

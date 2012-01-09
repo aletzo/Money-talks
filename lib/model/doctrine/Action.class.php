@@ -54,21 +54,7 @@ class Action extends BaseAction
 
     public function postSave($event)
     {
-        $balance = $this->Account->fetchBalance();
-
-        $deposit = $this->fetchDeposit();
-
-        if ($deposit) {
-            $balance += $deposit;
-        }
-
-        $withdrawal = $this->fetchWithdrawal();
-
-        if ($withdrawal) {
-            $balance -= $withdrawal;
-        }
-
-        $this->Account->storeBalance($balance);
+        $this->Account->recalculateBalance();
     }
 
 }

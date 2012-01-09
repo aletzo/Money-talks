@@ -31,7 +31,9 @@ class AccountTable extends Doctrine_Table
 
         if ($deep) {
             $q ->leftJoin('a.Actions c')
-                ->leftJoin('c.Tags t');
+                ->leftJoin('c.Tags t')
+                ->andWhere('c.deleted_at is null') //softdelete
+                ->andWhere('t.deleted_at is null'); //softdelete
         }
 
         if ($toArray) {

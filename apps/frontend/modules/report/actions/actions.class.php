@@ -42,11 +42,15 @@ class reportActions extends sfActions
 
                 $tagsCount = count($action->Tags);
 
-                $depositSlice = $deposit > 0 ? $deposit / $tagsCount : 0;
+                $depositSlice = $deposit > 0 ? $deposit / $tagsCount : false;
+
+                $depositSlice = number_format($depositSlice, 2, '.', '');
 
                 $this->deposits += $depositSlice;
 
-                $withdrawalSlice = $withdrawal > 0 ? $withdrawal / $tagsCount : 0;
+                $withdrawalSlice = $withdrawal > 0 ? $withdrawal / $tagsCount : false;
+
+                $withdrawalSlice = number_format($withdrawalSlice, 2, '.', '');
 
                 $this->withdrawals += $withdrawalSlice;
 

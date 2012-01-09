@@ -90,7 +90,7 @@ class accountActions extends sfActions
 
     public function executeDelete(sfWebRequest $request)
     {
-        $this->account = AccountTable::fetch($this->user_id, $request->getParameter('id'));
+        $account = AccountTable::fetch($this->user_id, $request->getParameter('id'));
 
         if ( ! $account) {
             $this->getUser()->setFlash('error', 'Account not found.');

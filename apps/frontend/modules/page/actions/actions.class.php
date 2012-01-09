@@ -26,4 +26,9 @@ class pageActions extends sfActions
         $this->getUser()->setHeader('Contact');
     }
 
+    public function executeLyrics(sfWebRequest $request)
+    {
+        $this->getUser()->setHeader('Lyrics');
+    }
+
 }

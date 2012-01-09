@@ -13,6 +13,27 @@
 class Account extends BaseAccount
 {
 
+    public function recalculateBalance()
+    {
+        $balance = 0;
+
+        foreach ($this->Actions as $action) {
+            $deposit = $action->fetchDeposit();
+
+            if ($deposit) {
+                $balance += $deposit;
+            }
+
+            $withdrawal = $action->fetchWithdrawal();
+
+            if ($withdrawal) {
+                $balance -= $withdrawal;
+            }
+        }
+
+        $this->storeBalance($balance);
+    }
+
     public function fetchBalance()
     {
         //TODO: decrypt this
