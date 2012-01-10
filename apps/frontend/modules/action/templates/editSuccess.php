@@ -1,4 +1,9 @@
 <?php use_helper('I18N') ?>
+<?php use_javascript('autocomplete-tags', 'last') ?>
+
+<script type="text/javascript">
+    var availableTags = <?php echo html_entity_decode($available_tags) ?>;
+</script>
 
 <form method="post" action="<?php echo url_for('@action_edit?id=' . $action->id) ?>">
     <fieldset>
@@ -32,7 +37,7 @@
         <div class="clearfix">
             <label><?php echo __('Tags') ?></label>
             <div class="input">
-                <input name="tags" class="span5" type="text" value="<?php echo $tags ?>" />
+                <input name="tags" class="span5" type="text" id="tags" value="<?php echo $tags ?>" />
                 <span class="help-inline"><?php echo __('Use the comma as delimeter (e.g. Home, Rent, Athens)') ?></span>
             </div>
         </div>

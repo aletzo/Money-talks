@@ -31,6 +31,8 @@ class actionActions extends sfActions
 
         $this->getUser()->setHeader('Add action <small>to ' . $this->account->name . '</small>');
 
+        $this->available_tags = TagTable::fetchUserTags($this->user_id);
+
         if ($request->isMethod(sfWebRequest::POST)) {
             $name = $request->getParameter('name');
             $deposit = $request->getParameter('deposit');
@@ -73,6 +75,8 @@ class actionActions extends sfActions
 
             $tags = $request->getParameter('tags');
 
+            $tags = rtrim($tags, ', ');
+
             if ( ! empty($tags)) {
                 $tags = explode(',', $tags);
 
@@ -110,6 +114,8 @@ class actionActions extends sfActions
         if ( ! $this->action) {
             $this->getUser()->setFlash('error', 'Action not found.');
         }
+
+        $this->available_tags = TagTable::fetchUserTags($this->user_id);
 
         $tags = array();
 
@@ -165,6 +171,8 @@ class actionActions extends sfActions
             $this->action->storeBalance($balance); //$this->action->save() is also called
             
             $newTags = $request->getParameter('tags');
+
+            $newTags = rtrim($newTags, ', ');
 
             if (empty($newTags)) {
                 $q = Doctrine_Query::create()

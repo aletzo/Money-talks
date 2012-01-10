@@ -16,4 +16,28 @@ class TagTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('Tag');
     }
+
+    static public function fetchUserTags($userId)
+    {
+        $q = Doctrine_Query::create()
+            ->select('t.name')
+            ->from('Tag t')
+            ->where('t.user_id = ?', $userId)
+            ->setHydrationMode(Doctrine_Core::HYDRATE_ARRAY);
+
+        if ($q->count()) {
+            $tags = array();    
+            
+            $results = $q->execute();
+
+            foreach ($results as $result) {
+                $tags[] = $result['name'];
+            }
+
+            return '["'. implode('", "', $tags) . '"]';
+        } else {
+            return '[]';
+        }
+    }
+
 }
