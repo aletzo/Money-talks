@@ -42,6 +42,10 @@ class reportActions extends sfActions
 
                 $tagsCount = count($action->Tags);
 
+                if ( ! $tagsCount) {
+                    continue;
+                }
+
                 $depositSlice = $deposit > 0 ? $deposit / $tagsCount : false;
 
                 $depositSlice = number_format($depositSlice, 2, '.', '');
