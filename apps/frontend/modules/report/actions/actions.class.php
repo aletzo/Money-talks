@@ -17,6 +17,8 @@ class reportActions extends sfActions
         parent::preExecute();
 
         $this->user_id = $this->getUser()->getGuardUser()->id;
+
+        $this->symmetric_key = $this->getUser()->getSymmetricKey();
     }
 
     public function executeList(sfWebRequest $request)
@@ -37,8 +39,8 @@ class reportActions extends sfActions
 
         foreach ($accounts as $account) {
             foreach ($account->Actions as $action) {
-                $deposit = $action->fetchDeposit();
-                $withdrawal = $action->fetchWithdrawal();
+                $deposit = $action->fetchDeposit($this->symmetric_key);
+                $withdrawal = $action->fetchWithdrawal($this->symmetric_key);
 
                 $tagsCount = count($action->Tags);
 

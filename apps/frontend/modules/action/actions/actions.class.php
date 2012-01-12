@@ -10,6 +10,8 @@
  */
 class actionActions extends sfActions
 {
+
+    protected $symmetric_key = null;
     protected $user_id = null;
 
     public function preExecute()
@@ -17,6 +19,8 @@ class actionActions extends sfActions
         parent::preExecute();
 
         $this->user_id = $this->getUser()->getGuardUser()->id;
+
+        $this->symmetric_key = $this->getUser()->getSymmetricKey();
     }
 
     public function executeNew(sfWebRequest $request)
@@ -57,21 +61,23 @@ class actionActions extends sfActions
             $action->date = $date ? $date : date('Y-m-d');
             $action->name = $name;
             
-            $balance = $this->account->fetchBalance();
+            $balance = $this->account->fetchBalance($this->symmetric_key);
 
             if ($deposit) {
-                $action->setDeposit($deposit);
+                $action->storeDeposit($deposit, $this->symmetric_key);
 
                 $balance += $deposit;
             }
 
             if ($withdrawal) {
-                $action->setWithdrawal($withdrawal);
+                $action->storeWithdrawal($withdrawal, $this->symmetric_key);
 
                 $balance -= $withdrawal;
             }
 
-            $action->storeBalance($balance); //$action->save() is also called
+            $action->storeBalance($balance, $this->symmetric_key); //$action->save() is also called
+
+            $action->Account->recalculateBalance($this->symmetric_key);
 
             $tags = $request->getParameter('tags');
 
@@ -146,29 +152,29 @@ class actionActions extends sfActions
             $deposit = $request->getParameter('deposit');
             $withdrawal = $request->getParameter('withdrawal');
 
-            $balance = $this->action->Account->fetchBalance();
+            $balance = $this->action->Account->fetchBalance($this->symmetric_key);
 
-            $oldDeposit = $this->action->fetchDeposit();
+            $oldDeposit = $this->action->fetchDeposit($this->symmetric_key);
 
             if ($deposit && $deposit != $oldDeposit) {
                 $balance -= $oldDeposit;
 
-                $this->action->setDeposit($deposit);
+                $this->action->storeDeposit($deposit, $this->symmetric_key);
 
                 $balance += $deposit;
             }
 
-            $oldWithdrawal = $this->action->fetchWithdrawal();
+            $oldWithdrawal = $this->action->fetchWithdrawal($this->symmetric_key);
 
             if ($withdrawal && $withdrawal != $oldWithdrawal) {
                 $balance += $oldWithdrawal;
 
-                $this->action->setWithdrawal($withdrawal);
+                $this->action->storeWithdrawal($withdrawal, $this->symmetric_key);
 
                 $balance -= $withdrawal;
             }
 
-            $this->action->storeBalance($balance); //$this->action->save() is also called
+            $this->action->storeBalance($balance, $this->symmetric_key); //$this->action->save() is also called
             
             $newTags = $request->getParameter('tags');
 
@@ -218,6 +224,8 @@ class actionActions extends sfActions
                         $actionTag->save();
                     }
                 }
+                
+                $this->action->Account->recalculateBalance($this->symmetric_key);
             }
 
             $this->getUser()->setFlash('success', 'The action "' . $this->action->name . '" was updated successfully!');
@@ -239,6 +247,7 @@ class actionActions extends sfActions
             $accountId = $action->account_id;
 
             if ($action->delete()) {
+                $action->Account->recalculateBalance($this->symmetric_key);
                 $this->getUser()->setFlash('success', 'The action "' . $action->name . '" was deleted successfully.');
             } else {
                 $this->getUser()->setFlash('error', 'Failed to delete the action.');

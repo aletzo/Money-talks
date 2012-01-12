@@ -16,24 +16,27 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($account['Actions'] as $action) : ?>
+        <?php foreach ($account->Actions as $action) : ?>
             <tr>
-                <td><?php echo $action['date'] ?></td>
+                <td><?php echo $action->date ?></td>
                 <td>
-                    <a href="<?php echo url_for('@action_edit?id=' . $action['id']) ?>"><?php echo $action['name'] ?></a>
-                    <?php if ($action['Tags']) : ?>
+                    <a href="<?php echo url_for('@action_edit?id=' . $action->id) ?>"><?php echo $action->name ?></a>
+                    <?php if ($action->Tags) : ?>
                         <span class="pull-right">
-                            <?php foreach ($action['Tags'] as $tag) : ?>
-                                <span class="label notice"><?php echo mb_convert_case($tag['name'], MB_CASE_TITLE, 'UTF-8'); ?></span>
+                            <?php foreach ($action->Tags as $tag) : ?>
+                                <span class="label notice"><?php echo mb_convert_case($tag->name, MB_CASE_TITLE, 'UTF-8'); ?></span>
                             <?php endforeach ?>
                         </span>
                     <?php endif ?>
                 </td>
-                <td><span class="green pull-right"><?php if ($action['deposit']) echo number_format($action['deposit'], 2, '.', '') ?></span></td>
-                <td><span class="red pull-right"><?php if ($action['withdrawal']) echo number_format($action['withdrawal'], 2, '.', '') ?></span></td>
-                <td><span class="<?php echo $action['balance'] < 0 ? 'red' : 'green' ?> pull-right tooltip" title="<?php echo __('as calculated when the action was last updated') ?>"><?php echo number_format($action['balance'], 2, '.', '') ?></span></td>
+                <?php $action_deposit = $action->fetchDeposit($symmetric_key) ?>
+                <td><span class="green pull-right"><?php if ($action_deposit) echo number_format($action_deposit, 2, '.', '') ?></span></td>
+                <?php $action_withdrawal = $action->fetchWithdrawal($symmetric_key) ?>
+                <td><span class="red pull-right"><?php if ($action_withdrawal) echo number_format($action_withdrawal, 2, '.', '') ?></span></td>
+                <?php $action_balance = $action->fetchBalance($symmetric_key) ?>
+                <td><span class="<?php echo $action_balance < 0 ? 'red' : 'green' ?> pull-right tooltip" title="<?php echo __('as calculated when the action was last updated') ?>"><?php echo number_format($action_balance, 2, '.', '') ?></span></td>
                 <td>
-                    <a class="action_delete pull-right" href="#" rel="<?php echo $action['id'] ?>" class="btn" data-keyboard="true" data-backdrop="true" data-controls-modal="modal_action_delete">
+                    <a class="action_delete pull-right" href="#" rel="<?php echo $action->id ?>" class="btn" data-keyboard="true" data-backdrop="true" data-controls-modal="modal_action_delete">
                         <img class="tooltip" title="<?php echo __('Delete') ?>" src="/images/delete.png" />
                     </a>
                 </td>
@@ -42,7 +45,8 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="5"><span class="<?php echo $account['balance'] < 0 ? 'red' : 'green' ?> pull-right"><?php echo __('Current balance:') . ' ' . number_format($account['balance'], 2) ?></span></td>
+            <?php $account_balance = $account->fetchBalance($symmetric_key) ?>
+            <td colspan="5"><span class="<?php echo $account_balance < 0 ? 'red' : 'green' ?> pull-right"><?php echo __('Current balance:') . ' ' . number_format($account_balance, 2) ?></span></td>
             <td></td>
         </tr>
     </tfoot>
@@ -51,20 +55,20 @@
     <div class="actions">
         <a class="btn primary" href="<?php echo url_for('@action_new') ?>"><?php echo __('Add action') ?></a>
         <button id="account_delete" class="btn danger pull-right" data-keyboard="true" data-backdrop="true" data-controls-modal="modal_account_delete"><?php echo __('Delete the account') ?></button>
-        <a class="btn pull-right" href="<?php echo url_for('@account_edit?id=' . $account['id']) ?>"><?php echo __('Edit the account') ?></a>
+        <a class="btn pull-right" href="<?php echo url_for('@account_edit?id=' . $account->id) ?>"><?php echo __('Edit the account') ?></a>
     </div>
 </div>
 
 <div class="modal hide fade" id="modal_account_delete">
     <div class="modal-header">
         <a class="close" href="#">×</a>
-        <h3><?php echo __('Delete the account "%name%"', array('%name%' => $account['name'])) ?></h3>
+        <h3><?php echo __('Delete the account "%name%"', array('%name%' => $account->name)) ?></h3>
     </div>
     <div class="modal-body">
         <p><?php echo __('This is irreversible. Beware!') ?></p>
     </div>
     <div class="modal-footer">
-        <a class="btn primary" href="<?php echo url_for('@account_delete?id=' . $account['id']) ?>"><?php echo __('Delete') ?></a>
+        <a class="btn primary" href="<?php echo url_for('@account_delete?id=' . $account->id) ?>"><?php echo __('Delete') ?></a>
     </div>
 </div>
 

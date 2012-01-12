@@ -16,4 +16,12 @@ class myUser extends sfGuardSecurityUser
         return $this->header === null ? '' : $this->header;
     }
 
+    public function getSymmetricKey()
+    {
+        $guardUser = $this->getGuardUser();
+        
+        //we use 3 params the won't change (id, email_address and created_at)
+        return md5('$up3RRR S@@@@l777' . $guardUser->id . sha1($guardUser->email_address . 'g11111b3333r1111sh' . $guardUser->created_at . '$333c000nDDD $@lll77'));
+    }
+
 }

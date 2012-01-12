@@ -12,7 +12,9 @@
             <?php foreach ($accounts as $account) : ?>
                 <tr>
                     <td><a href="<?php echo url_for('@account_view?id=' . $account->id) ?>"><?php echo $account->name ?></a></td>
-                    <td><span class="<?php echo $account->fetchBalance() < 0 ? 'red' : 'green' ?>"><?php echo number_format($account->fetchBalance(), 2) ?></span></td>
+
+                    <?php $account_balance = $account->fetchBalance($symmetric_key) ?>
+                    <td><span class="<?php echo $account_balance < 0 ? 'red' : 'green' ?>"><?php echo number_format($account_balance, 2) ?></span></td>
                 </tr>
             <?php endforeach ?>
                 <tr>

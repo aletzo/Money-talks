@@ -17,6 +17,8 @@ class accountActions extends sfActions
         parent::preExecute();
 
         $this->user_id = $this->getUser()->getGuardUser()->id;
+
+        $this->symmetric_key = $this->getUser()->getSymmetricKey();
     }
 
 
@@ -29,7 +31,7 @@ class accountActions extends sfActions
         $this->balance = 0;
 
         foreach ($this->accounts as $account) {
-            $this->balance += $account->fetchBalance();
+            $this->balance += $account->fetchBalance($this->symmetric_key);
         }
     }
 
@@ -48,7 +50,7 @@ class accountActions extends sfActions
                 $account = new Account();
                 $account->name = $name;
                 $account->user_id = $this->user_id;
-                $account->setBalance(0);
+                $account->storeBalance(0, $this->symmetric_key);
                 $account->save();
 
                 $this->getUser()->setFlash('success', 'The account "' . $account->name . '" was created successfully!');
@@ -107,7 +109,7 @@ class accountActions extends sfActions
 
     public function executeView(sfWebRequest $request)
     {
-        $this->account = AccountTable::fetch($this->user_id, $request->getParameter('id'), true, true);
+        $this->account = AccountTable::fetch($this->user_id, $request->getParameter('id'), true);
 
         if ($this->account) {
             $this->getUser()->setHeader($this->account['name'] . ' <small>details</small>');

@@ -23,14 +23,16 @@
         <div class="clearfix">
             <label><?php echo __('Deposit') ?></label>
             <div class="input">
-                <input name="deposit" class="span2" type="text" value="<?php echo $action->deposit ?>" />
+                <?php $action_deposit = $action->fetchDeposit($symmetric_key) ?>
+                <input name="deposit" class="span2" type="text" value="<?php if ($action_deposit) echo $action_deposit ?>" />
                 <span class="help-inline"><?php echo __('Use a period "." for decimal separator') ?></span>
             </div>
         </div>
         <div class="clearfix">
             <label><?php echo __('Withdrawal') ?></label>
             <div class="input">
-                <input name="withdrawal" class="span2" type="text" value="<?php echo $action->withdrawal ?>" />
+                <?php $action_withdrawal = $action->fetchWithdrawal($symmetric_key) ?>
+                <input name="withdrawal" class="span2" type="text" value="<?php if ($action_withdrawal) echo $action_withdrawal ?>" />
                 <span class="help-inline"><?php echo __('Use a period "." for decimal separator') ?></span>
             </div>
         </div>

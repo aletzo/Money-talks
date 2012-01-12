@@ -13,48 +13,58 @@
 class Action extends BaseAction
 {
     
-    public function fetchDeposit()
+    public function fetchDeposit($key)
     {
-        //TODO: decrypt this
-        return $this->deposit;
+        if (empty($this->deposit)) {
+            return 0;
+        } else {
+            return CryptHelper::getInstance()->setKey($key)
+                ->decrypt($this->deposit);
+        }
     }
 
-    public function storeDeposit($deposit)
+    public function storeDeposit($deposit, $key)
     {
-        //TODO: encrypt this
-        $this->deposit = $deposit;
+        $this->deposit = CryptHelper::getInstance()->setKey($key)
+            ->encrypt($deposit);
+
         $this->save();
     }
 
-    public function fetchWithdrawal()
+    public function fetchWithdrawal($key)
     {
-        //TODO: decrypt this
-        return $this->withdrawal;
+        if (empty($this->withdrawal)) {
+            return 0;
+        } else {
+            return CryptHelper::getInstance()->setKey($key)
+                ->decrypt($this->withdrawal);
+        }
     }
 
-    public function storeWithdrawal($withdrawal)
+    public function storeWithdrawal($withdrawal, $key)
     {
-        //TODO: encrypt this
-        $this->withdrawal = $withdrawal;
+        $this->withdrawal = CryptHelper::getInstance()->setKey($key)
+            ->encrypt($withdrawal);
+
         $this->save();
     }
 
-    public function fetchBalance()
+    public function fetchBalance($key)
     {
-        //TODO: decrypt this
-        return $this->balance;
+        if (empty($this->balance)) {
+            return 0;
+        } else {
+            return CryptHelper::getInstance()->setKey($key)
+                ->decrypt($this->balance);
+        }
     }
 
-    public function storeBalance($balance)
+    public function storeBalance($balance, $key)
     {
-        //TODO: encrypt this
-        $this->balance = $balance;
+        $this->balance = CryptHelper::getInstance()->setKey($key)
+            ->encrypt($balance);
+
         $this->save();
-    }
-
-    public function postSave($event)
-    {
-        $this->Account->recalculateBalance();
     }
 
 }

@@ -14,6 +14,7 @@ class pageActions extends sfActions
     public function executeHome(sfWebRequest $request)
     {
         $this->getUser()->setHeader('Welcome');
+
     }
 
     public function executeAbout(sfWebRequest $request)

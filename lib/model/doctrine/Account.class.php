@@ -13,37 +13,38 @@
 class Account extends BaseAccount
 {
 
-    public function recalculateBalance()
+    public function recalculateBalance($key)
     {
         $balance = 0;
 
         foreach ($this->Actions as $action) {
-            $deposit = $action->fetchDeposit();
+            $deposit = $action->fetchDeposit($key);
 
             if ($deposit) {
                 $balance += $deposit;
             }
 
-            $withdrawal = $action->fetchWithdrawal();
+            $withdrawal = $action->fetchWithdrawal($key);
 
             if ($withdrawal) {
                 $balance -= $withdrawal;
             }
         }
 
-        $this->storeBalance($balance);
+        $this->storeBalance($balance, $key);
     }
 
-    public function fetchBalance()
+    public function fetchBalance($key)
     {
-        //TODO: decrypt this
-        return $this->balance;
+        return CryptHelper::getInstance()->setKey($key)
+            ->decrypt($this->balance);
     }
 
-    public function storeBalance($balance)
+    public function storeBalance($balance, $key)
     {
-        //TODO: encrypt this
-        $this->balance = $balance;
+        $this->balance = CryptHelper::getInstance()->setKey($key)
+            ->encrypt($balance);
+
         $this->save();
     }
 
