@@ -3,6 +3,7 @@
 cache/*
 log/*
 web/uploads/*
+data/fixtures/*
 data/lucene/*
 data/sql/*
 nbproject/*

@@ -7,10 +7,10 @@ default:
 
   metas:
     #title:        symfony project
-    #description:  symfony project
+    description:  'a personal finance application that stores the data encrypted'
     #keywords:     symfony, project
-    #language:     en
-    #robots:       index, follow
+    language:     en
+    robots:       index, nofollow
 
   stylesheets:    [bootstrap.min.css, smoothness/jquery-ui-1.8.16.custom.css, main.css]
 

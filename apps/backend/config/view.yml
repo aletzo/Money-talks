@@ -10,9 +10,9 @@ default:
     #description:  symfony project
     #keywords:     symfony, project
     #language:     en
-    #robots:       index, follow
+    robots:       noindex, nofollow
 
-  stylesheets:    [main.css]
+  stylesheets:    [bootstrap.min.css, main.css]
 
   javascripts:    []
 
