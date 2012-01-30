@@ -1,3 +1,8 @@
 This is an open source personal finance web application.
 
 All the money values are stored encrypted in the database. Only the user knows the actual figures.
+
+
+See it live:
+
+http://moneytalks.mydevnull.net
