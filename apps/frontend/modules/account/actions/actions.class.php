@@ -112,6 +112,15 @@ class accountActions extends sfActions
         $this->account = AccountTable::fetch($this->user_id, $request->getParameter('id'), true);
 
         if ($this->account) {
+            
+            $isPost = $request->isMethod('post');
+
+            $this->history    = $request->getParameter('history', 1);
+            $this->deposit    = $request->getParameter('deposit', ! $isPost);
+            $this->withdrawal = $request->getParameter('withdrawal', ! $isPost );
+
+            $this->actions = AccountTable::filterAccountActions($this->account->id, $this->history, $this->deposit, $this->withdrawal);
+
             $this->getUser()->setHeader($this->account['name'] . ' <small>details</small>');
 
             $this->getUser()->setAttribute('account_id', $this->account['id']); //used to associate the actions CRUD with an account

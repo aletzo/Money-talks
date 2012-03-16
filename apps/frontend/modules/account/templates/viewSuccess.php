@@ -3,7 +3,21 @@
 <?php use_javascript('action-delete', 'last') ?>
 <?php use_javascript('jquery.tablesorter.min.js', 'last') ?>
 <?php use_javascript('account-table-sort', 'last') ?>
+<?php use_javascript('actions-filters', 'last') ?>
+
 <?php use_helper('I18N', 'String') ?>
+
+<div id="filters">
+    <form id="filters_form" action="<?php echo url_for('@account_view?id=' . $account->id) ?>" method="POST">
+        <label><input type="radio" name="history" value="12" <?php if ($history == 12) echo  ' checked' ?> /> <?php echo __('1 year') ?></label>
+        <label><input type="radio" name="history" value="3" <?php if ($history == 3) echo ' checked' ?>/> <?php echo __('3 months') ?></label>
+        <label><input type="radio" name="history" value="1" <?php if ($history == 1 ) echo ' checked' ?> /> <?php echo __('1 month') ?></label>
+        <div class="spacer">&nbsp;</div>
+        <label><input type="checkbox" name="deposit" <?php if ($deposit) echo ' checked' ?> /> <?php echo __('Deposits') ?></label>
+        <label><input type="checkbox" name="withdrawal" <?php if ($withdrawal) echo ' checked' ?> /> <?php echo __('Withdrawals') ?></label>
+    </form>
+</div>
+
 <table class="bordered-table condensed-table zebra-striped">
     <thead>
         <tr>
@@ -16,7 +30,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($account->Actions as $action) : ?>
+        <?php foreach ($actions as $action) : ?>
             <tr>
                 <td><?php echo $action->date ?></td>
                 <td>
