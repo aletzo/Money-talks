@@ -115,9 +115,19 @@ class accountActions extends sfActions
             
             $isPost = $request->isMethod('post');
 
-            $this->history    = $request->getParameter('history', 1);
-            $this->deposit    = $request->getParameter('deposit', ! $isPost);
-            $this->withdrawal = $request->getParameter('withdrawal', ! $isPost );
+            if ($isPost) {
+                $this->history    = $request->getParameter('history', 1);
+                $this->deposit    = $request->getParameter('deposit', ! $isPost);
+                $this->withdrawal = $request->getParameter('withdrawal', ! $isPost );
+
+                $this->getUser()->setAttribute('history', $this->history, 'account_view_filters');
+                $this->getUser()->setAttribute('deposit', $this->deposit, 'account_view_filters');
+                $this->getUser()->setAttribute('withdrawal', $this->withdrawal, 'account_view_filters');
+            } else {
+                $this->history    = $this->getUser()->getAttribute('history', 1, 'account_view_filters');
+                $this->deposit    = $this->getUser()->getAttribute('deposit', true, 'account_view_filters');
+                $this->withdrawal = $this->getUser()->getAttribute('withdrawal', true, 'account_view_filters');
+            }
 
             $this->actions = AccountTable::filterAccountActions($this->account->id, $this->history, $this->deposit, $this->withdrawal);
 

@@ -46,7 +46,7 @@
             </div>
 
             <footer style="height:60px">
-                <p>&lt;vanity card><a id="vanity_card" href="http://mydevnull.net" target="_blank">~/dev/null</a>&lt;/vanity card></p>
+                <p><a id="vanity_card" href="http://mydevnull.net" target="_blank">~/dev/null</a></p>
                 <p><img id="konami_img" style="display:none;height:10px" src="/images/konami_code.png" /></p>
             </footer>
         </div> <!-- /container -->

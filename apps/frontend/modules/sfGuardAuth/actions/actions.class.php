@@ -9,7 +9,7 @@ class sfGuardAuthActions extends BasesfGuardAuthActions
     {
         $user = $this->getUser();
         if ($user->isAuthenticated()) {
-            return $this->redirect('@homepage');
+            return $this->redirect('@account_list');
         }
 
         $class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin');
@@ -21,7 +21,7 @@ class sfGuardAuthActions extends BasesfGuardAuthActions
                 $values = $this->form->getValues();
                 $this->getUser()->signin($values['user'], array_key_exists('remember', $values) ? $values['remember'] : false);
 
-                return $this->redirect('@homepage');
+                return $this->redirect('@account_list');
             }
         } else {
             if ($request->isXmlHttpRequest()) {
@@ -59,7 +59,7 @@ class sfGuardAuthActions extends BasesfGuardAuthActions
     public function executeLogin(sfWebRequest $request)
     {
         if ($this->getUser()->isAuthenticated()) {
-            $this->redirect('@homepage');
+            $this->redirect('@account_list');
         }
         
         $openid = new LightOpenID($request->getHost());
@@ -117,7 +117,7 @@ class sfGuardAuthActions extends BasesfGuardAuthActions
                 
                 $this->getUser()->setFlash('success', 'You were authenticated successfully!');
 
-                $this->redirect('@homepage');
+                $this->redirect('@account_list');
             } else {
                 $this->getUser()->setFlash('error', 'Failed to authenticate! Please try again or choose a different OpenID provider.');
 

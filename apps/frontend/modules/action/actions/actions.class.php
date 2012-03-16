@@ -11,20 +11,11 @@
 class actionActions extends sfActions
 {
 
-    protected $symmetric_key = null;
-    protected $user_id = null;
-
-    public function preExecute()
-    {
-        parent::preExecute();
-
-        $this->user_id = $this->getUser()->getGuardUser()->id;
-
-        $this->symmetric_key = $this->getUser()->getSymmetricKey();
-    }
-
     public function executeNew(sfWebRequest $request)
     {
+        $this->user_id = $this->getUser()->getGuardUser()->id;
+        $this->symmetric_key = $this->getUser()->getSymmetricKey();
+
         $this->account = AccountTable::fetch($this->getUser()->getGuardUser()->id, $this->getUser()->getAttribute('account_id'));
 
         if ( ! $this->account) {
@@ -113,12 +104,17 @@ class actionActions extends sfActions
 
     public function executeEdit(sfWebRequest $request)
     {
+        $this->user_id = $this->getUser()->getGuardUser()->id;
+        $this->symmetric_key = $this->getUser()->getSymmetricKey();
+        
         $this->getUser()->setHeader('Edit action');
 
         $this->action = ActionTable::getInstance()->findOneByIdAndUser_id($request->getParameter('id'), $this->user_id);
 
         if ( ! $this->action) {
             $this->getUser()->setFlash('error', 'Action not found.');
+
+            $this->redirect('@account_list');
         }
 
         $this->available_tags = TagTable::fetchUserTags($this->user_id);
@@ -175,6 +171,8 @@ class actionActions extends sfActions
             }
 
             $this->action->storeBalance($balance, $this->symmetric_key); //$this->action->save() is also called
+
+            $this->action->Account->recalculateBalance($this->symmetric_key);
             
             $newTags = $request->getParameter('tags');
 
@@ -224,8 +222,8 @@ class actionActions extends sfActions
                         $actionTag->save();
                     }
                 }
-                
-                $this->action->Account->recalculateBalance($this->symmetric_key);
+
+                TagTable::cleanUpUnused();
             }
 
             $this->getUser()->setFlash('success', 'The action "' . $this->action->name . '" was updated successfully!');
@@ -236,6 +234,9 @@ class actionActions extends sfActions
 
     public function executeDelete(sfWebRequest $request)
     {
+        $this->user_id = $this->getUser()->getGuardUser()->id;
+        $this->symmetric_key = $this->getUser()->getSymmetricKey();
+
         $action = ActionTable::getInstance()->findOneByIdAndUser_id($request->getParameter('id'), $this->user_id);
 
         if ( ! $action) {

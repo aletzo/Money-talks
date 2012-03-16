@@ -9,8 +9,10 @@
         <input type="hidden" name="provider" value="yahoo" />
         <input type="submit" class="btn primary" value="Yahoo" title="log in with Yahoo" />
     </form>
-    <form class="inline-form" method="post" action="<?php echo url_for('@openid_login') ?>">
-        <input type="hidden" name="provider" value="local" />
-        <input type="submit" class="btn error" value="Local" title="log in with local" />
-    </form>
+    <?php if (sfConfig::get('sf_environment') == 'dev') : ?>
+        <form class="inline-form" method="post" action="<?php echo url_for('@openid_login') ?>">
+            <input type="hidden" name="provider" value="local" />
+            <input type="submit" class="btn error" value="Local" title="log in with local" />
+        </form>
+    <?php endif ?>
 </div>

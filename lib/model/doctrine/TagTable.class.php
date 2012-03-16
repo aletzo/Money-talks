@@ -40,4 +40,26 @@ class TagTable extends Doctrine_Table
         }
     }
 
+    static public function cleanUpUnused()
+    {
+        $q = Doctrine_Query::create()
+            ->select('at.tag_id')
+            ->from('ActionTag at')
+            ->setHydrationMode(Doctrine_Core::HYDRATE_ARRAY);
+
+        $results = $q->execute();
+
+        $usedIds = array();
+
+        foreach ($results as $result) {
+            $usedIds[] = $result['tag_id'];
+        }
+
+        $q = Doctrine_Query::create()
+            ->delete('Tag t')
+            ->whereNotIn('t.id', $usedIds);
+
+        $q->execute();
+    }
+
 }
