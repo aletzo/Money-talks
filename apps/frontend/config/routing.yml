@@ -49,6 +49,22 @@ action_delete:
   url: /action-delete/:id
   param: { module: action, action: delete }
 
+budget_list:
+  url: /budgets
+  param: { module: budget, action: list }
+
+budget_new:
+  url: /budget-create
+  param: { module: budget, action: new }
+
+budget_edit:
+  url: /budget-edit/:id
+  param: { module: budget, action: edit }
+
+budget_delete:
+  url: /budget-delete/:id
+  param: { module: budget, action: delete }
+
 report_list:
   url: /reports
   param: { module: report, action: list }

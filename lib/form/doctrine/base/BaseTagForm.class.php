@@ -23,6 +23,7 @@ abstract class BaseTagForm extends BaseFormDoctrine
       'created_at'   => new sfWidgetFormDateTime(),
       'updated_at'   => new sfWidgetFormDateTime(),
       'actions_list' => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Action')),
+      'budgets_list' => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Budget')),
     ));
 
     $this->setValidators(array(
@@ -34,6 +35,7 @@ abstract class BaseTagForm extends BaseFormDoctrine
       'created_at'   => new sfValidatorDateTime(),
       'updated_at'   => new sfValidatorDateTime(),
       'actions_list' => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Action', 'required' => false)),
+      'budgets_list' => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Budget', 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('tag[%s]');
@@ -59,11 +61,17 @@ abstract class BaseTagForm extends BaseFormDoctrine
       $this->setDefault('actions_list', $this->object->Actions->getPrimaryKeys());
     }
 
+    if (isset($this->widgetSchema['budgets_list']))
+    {
+      $this->setDefault('budgets_list', $this->object->Budgets->getPrimaryKeys());
+    }
+
   }
 
   protected function doSave($con = null)
   {
     $this->saveActionsList($con);
+    $this->saveBudgetsList($con);
 
     parent::doSave($con);
   }
@@ -103,6 +111,44 @@ abstract class BaseTagForm extends BaseFormDoctrine
     if (count($link))
     {
       $this->object->link('Actions', array_values($link));
+    }
+  }
+
+  public function saveBudgetsList($con = null)
+  {
+    if (!$this->isValid())
+    {
+      throw $this->getErrorSchema();
+    }
+
+    if (!isset($this->widgetSchema['budgets_list']))
+    {
+      // somebody has unset this widget
+      return;
+    }
+
+    if (null === $con)
+    {
+      $con = $this->getConnection();
+    }
+
+    $existing = $this->object->Budgets->getPrimaryKeys();
+    $values = $this->getValue('budgets_list');
+    if (!is_array($values))
+    {
+      $values = array();
+    }
+
+    $unlink = array_diff($existing, $values);
+    if (count($unlink))
+    {
+      $this->object->unlink('Budgets', array_values($unlink));
+    }
+
+    $link = array_diff($values, $existing);
+    if (count($link))
+    {
+      $this->object->link('Budgets', array_values($link));
     }
   }
 

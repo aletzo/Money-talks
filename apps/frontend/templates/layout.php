@@ -20,6 +20,7 @@
                         <li><a href="<?php echo url_for('@homepage') ?>"><?php echo __('Home') ?></a></li>
                         <?php if ($sf_user->isAuthenticated()) : ?>
                             <li><a href="<?php echo url_for('@account_list') ?>"><?php echo __('Accounts') ?></a></li>
+                            <li><a href="<?php echo url_for('@budget_list') ?>"><?php echo __('Budgets') ?></a></li>
                             <li><a href="<?php echo url_for('@report_list') ?>"><?php echo __('Reports') ?></a></li>
                         <?php endif ?>
                         <li><a href="<?php echo url_for('@about') ?>"><?php echo __('About') ?></a></li>

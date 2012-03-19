@@ -45,6 +45,7 @@ Tag:
   relations:
     User:    { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Tags, onDelete: CASCADE }
     Actions: { class: Action, refClass: ActionTag, local: tag_id, foreign: action_id, foreignAlias: Tags, onDelete: CASCADE }
+    Budgets: { class: Budget, refClass: BudgetTag, local: tag_id, foreign: budget_id, foreignAlias: Tags, onDelete: CASCADE }
 
 
 ActionTag:
@@ -55,4 +56,25 @@ ActionTag:
     Action: { local: action_id, foreign: id, onDelete: CASCADE }
     Tag:    { local: tag_id, foreign: id, onDelete: CASCADE }
 
+Budget:
+  actAs:
+    SoftDelete:
+    Timestampable:
+  columns:
+    user_id: { type: integer }
+    amount:    { type: string(100), notnull: true }
+    current:   { type: string(100), notnull: true }
+    month:     { type: integer }
+    year:      { type: integer }
+  relations:
+    User: { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Budgets, onDelete: CASCADE }
+    Tags: { class: Tag, refClass: BudgetTag, local: budget_id, foreign: tag_id, foreignAlias: Budgets, onDelete: CASCADE }
+
+BudgetTag:
+  columns:
+    budget_id: { type: integer, primary: true }
+    tag_id:    { type: integer, primary: true }
+  relations:
+    Budget: { local: budget_id, foreign: id, onDelete: CASCADE }
+    Tag:    { local: tag_id, foreign: id, onDelete: CASCADE }
 

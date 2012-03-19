@@ -24,6 +24,7 @@
  * @property Doctrine_Collection $Accounts
  * @property Doctrine_Collection $Actions
  * @property Doctrine_Collection $Tags
+ * @property Doctrine_Collection $Budgets
  * 
  * @method string                getFirstName()             Returns the current record's "first_name" value
  * @method string                getLastName()              Returns the current record's "last_name" value
@@ -44,6 +45,7 @@
  * @method Doctrine_Collection   getAccounts()              Returns the current record's "Accounts" collection
  * @method Doctrine_Collection   getActions()               Returns the current record's "Actions" collection
  * @method Doctrine_Collection   getTags()                  Returns the current record's "Tags" collection
+ * @method Doctrine_Collection   getBudgets()               Returns the current record's "Budgets" collection
  * @method sfGuardUser           setFirstName()             Sets the current record's "first_name" value
  * @method sfGuardUser           setLastName()              Sets the current record's "last_name" value
  * @method sfGuardUser           setEmailAddress()          Sets the current record's "email_address" value
@@ -63,6 +65,7 @@
  * @method sfGuardUser           setAccounts()              Sets the current record's "Accounts" collection
  * @method sfGuardUser           setActions()               Sets the current record's "Actions" collection
  * @method sfGuardUser           setTags()                  Sets the current record's "Tags" collection
+ * @method sfGuardUser           setBudgets()               Sets the current record's "Budgets" collection
  * 
  * @package    moneytalks
  * @subpackage model
@@ -167,6 +170,10 @@ abstract class BasesfGuardUser extends sfDoctrineRecord
              'foreign' => 'user_id'));
 
         $this->hasMany('Tag as Tags', array(
+             'local' => 'id',
+             'foreign' => 'user_id'));
+
+        $this->hasMany('Budget as Budgets', array(
              'local' => 'id',
              'foreign' => 'user_id'));
 
