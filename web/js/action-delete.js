@@ -1,5 +1,3 @@
-$('.action_delete').modal();
-
 $('.action_delete').click(function() {
     var href = $('#action_delete').attr('href').replace('action_id', '');
 

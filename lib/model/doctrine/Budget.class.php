@@ -31,48 +31,4 @@ class Budget extends BaseBudget
         $this->save();
     }
 
-    public function fetchCurrent($key)
-    {
-        if (empty($this->current)) {
-            return 0;
-        } else {
-            return CryptHelper::getInstance()->setKey($key)
-                ->decrypt($this->current);
-        }
-    }
-
-    public function storeCurrent($current, $key)
-    {
-        $this->current = CryptHelper::getInstance()->setKey($key)
-            ->encrypt($current);
-
-        $this->save();
-    }
-
-    public function calculateCurrent($key)
-    {
-        $tags = array();
-
-        foreach ($this->Tags as $tag) {
-            $tags[] = $tag->id;
-        }
-
-        $q = Doctrine_Query::create()
-            ->from('Action a')
-            ->leftJoin('a.Tags t')
-            ->whereIn('t.id', $tags);
-
-        $results = $q->execute();
-
-        $current = 0;
-
-        foreach ($results as $result) {
-            $current += $result->fetchWithdrawal($key);
-        }
-
-        $this->storeCurrent($current, $key);
-
-        $this->save();
-    }
-
 }

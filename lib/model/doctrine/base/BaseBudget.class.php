@@ -7,29 +7,26 @@
  * 
  * @property integer $user_id
  * @property string $amount
- * @property string $current
- * @property integer $month
- * @property integer $year
+ * @property boolean $tags_combined
  * @property sfGuardUser $User
  * @property Doctrine_Collection $Tags
+ * @property Doctrine_Collection $Months
  * @property Doctrine_Collection $BudgetTag
  * 
- * @method integer             getUserId()    Returns the current record's "user_id" value
- * @method string              getAmount()    Returns the current record's "amount" value
- * @method string              getCurrent()   Returns the current record's "current" value
- * @method integer             getMonth()     Returns the current record's "month" value
- * @method integer             getYear()      Returns the current record's "year" value
- * @method sfGuardUser         getUser()      Returns the current record's "User" value
- * @method Doctrine_Collection getTags()      Returns the current record's "Tags" collection
- * @method Doctrine_Collection getBudgetTag() Returns the current record's "BudgetTag" collection
- * @method Budget              setUserId()    Sets the current record's "user_id" value
- * @method Budget              setAmount()    Sets the current record's "amount" value
- * @method Budget              setCurrent()   Sets the current record's "current" value
- * @method Budget              setMonth()     Sets the current record's "month" value
- * @method Budget              setYear()      Sets the current record's "year" value
- * @method Budget              setUser()      Sets the current record's "User" value
- * @method Budget              setTags()      Sets the current record's "Tags" collection
- * @method Budget              setBudgetTag() Sets the current record's "BudgetTag" collection
+ * @method integer             getUserId()        Returns the current record's "user_id" value
+ * @method string              getAmount()        Returns the current record's "amount" value
+ * @method boolean             getTagsCombined()  Returns the current record's "tags_combined" value
+ * @method sfGuardUser         getUser()          Returns the current record's "User" value
+ * @method Doctrine_Collection getTags()          Returns the current record's "Tags" collection
+ * @method Doctrine_Collection getMonths()        Returns the current record's "Months" collection
+ * @method Doctrine_Collection getBudgetTag()     Returns the current record's "BudgetTag" collection
+ * @method Budget              setUserId()        Sets the current record's "user_id" value
+ * @method Budget              setAmount()        Sets the current record's "amount" value
+ * @method Budget              setTagsCombined()  Sets the current record's "tags_combined" value
+ * @method Budget              setUser()          Sets the current record's "User" value
+ * @method Budget              setTags()          Sets the current record's "Tags" collection
+ * @method Budget              setMonths()        Sets the current record's "Months" collection
+ * @method Budget              setBudgetTag()     Sets the current record's "BudgetTag" collection
  * 
  * @package    moneytalks
  * @subpackage model
@@ -49,16 +46,9 @@ abstract class BaseBudget extends sfDoctrineRecord
              'notnull' => true,
              'length' => 100,
              ));
-        $this->hasColumn('current', 'string', 100, array(
-             'type' => 'string',
-             'notnull' => true,
-             'length' => 100,
-             ));
-        $this->hasColumn('month', 'integer', null, array(
-             'type' => 'integer',
-             ));
-        $this->hasColumn('year', 'integer', null, array(
-             'type' => 'integer',
+        $this->hasColumn('tags_combined', 'boolean', null, array(
+             'type' => 'boolean',
+             'default' => false,
              ));
 
         $this->option('type', 'InnoDB');
@@ -79,6 +69,10 @@ abstract class BaseBudget extends sfDoctrineRecord
              'local' => 'budget_id',
              'foreign' => 'tag_id',
              'onDelete' => 'CASCADE'));
+
+        $this->hasMany('BudgetMonth as Months', array(
+             'local' => 'id',
+             'foreign' => 'budget_id'));
 
         $this->hasMany('BudgetTag', array(
              'local' => 'id',

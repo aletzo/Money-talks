@@ -7,14 +7,14 @@ default:
 
   metas:
     #title:        symfony project
-    description:  'a personal finance application that stores the data encrypted'
+    description:  'a simple and secure personal finance application'
     #keywords:     symfony, project
     language:     en
     robots:       index, nofollow
 
   stylesheets:    [bootstrap.min.css, smoothness/jquery-ui-1.8.16.custom.css, main.css]
 
-  javascripts:    [jquery-1.7.min.js, jquery-ui-1.8.16.custom.min.js, bootstrap-twipsy.js, app.js] 
+  javascripts:    [jquery-1.7.min.js, jquery-ui-1.8.16.custom.min.js, bootstrap.min.js, app.js] 
 
   has_layout:     true
   layout:         layout

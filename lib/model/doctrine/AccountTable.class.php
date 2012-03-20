@@ -50,7 +50,8 @@ class AccountTable extends Doctrine_Table
         $q = Doctrine_Query::create()
             ->from('Action a')
             ->where('a.account_id = ?', $accountId)
-            ->andWhere('a.date > ?', date('Y-m-d 0:00:00', $timestamp));
+            ->andWhere('a.date > ?', date('Y-m-d 0:00:00', $timestamp))
+            ->andWhere('a.deleted_at is null');
 
         if ($deposit && $withdrawal) {
             $extraWhere = "a.deposit <> '' OR a.withdrawal <> ''";

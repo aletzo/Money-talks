@@ -61,14 +61,21 @@ Budget:
     SoftDelete:
     Timestampable:
   columns:
-    user_id: { type: integer }
-    amount:    { type: string(100), notnull: true }
+    user_id:       { type: integer }
+    amount:        { type: string(100), notnull: true }
+    tags_combined: { type: boolean, default: false }
+  relations:
+    User: { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Budgets, onDelete: CASCADE }
+    Tags: { class: Tag, refClass: BudgetTag, local: budget_id, foreign: tag_id, foreignAlias: Budgets, onDelete: CASCADE }
+
+BudgetMonth:
+  columns:
+    budget_id: { type: integer }
     current:   { type: string(100), notnull: true }
     month:     { type: integer }
     year:      { type: integer }
   relations:
-    User: { class: sfGuardUser, local: user_id, foreign: id, foreignAlias: Budgets, onDelete: CASCADE }
-    Tags: { class: Tag, refClass: BudgetTag, local: budget_id, foreign: tag_id, foreignAlias: Budgets, onDelete: CASCADE }
+    Budget: { class: Budget, local: budget_id, foreign: id, foreignAlias: Months, onDelete: CASCADE }
 
 BudgetTag:
   columns:

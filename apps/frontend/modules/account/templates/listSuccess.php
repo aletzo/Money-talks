@@ -1,7 +1,7 @@
 <?php use_helper('I18N') ?>
 
 <?php if ($accounts) : ?>
-    <table>
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th><?php echo __('Name') ?></th>
@@ -28,6 +28,6 @@
 <?php endif ?>
 <div class="form-stacked">
     <div class="actions">
-        <a class="btn primary" href="<?php echo url_for('@account_new') ?>"><?php echo __('Create new account') ?></a>
+        <a class="btn btn-primary" href="<?php echo url_for('@account_new') ?>"><i class="icon-plus icon-white"></i> <?php echo __('Create new account') ?></a>
     </div>
 </div>

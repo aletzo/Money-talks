@@ -10,21 +10,29 @@
         <?php include_stylesheets() ?>
     </head>
     <body>
-
-        <div class="topbar">
-            <div class="fill">
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
                 <div class="container">
                     <a class="brand" href="<?php echo url_for('@homepage') ?>"><?php echo sfConfig::get('project_name') ?></a>
 
                     <ul class="nav">
-                        <li><a href="<?php echo url_for('@homepage') ?>"><?php echo __('Home') ?></a></li>
+                        <li rel="home"><a href="<?php echo url_for('@homepage') ?>"><?php echo __('Home') ?></a></li>
                         <?php if ($sf_user->isAuthenticated()) : ?>
-                            <li><a href="<?php echo url_for('@account_list') ?>"><?php echo __('Accounts') ?></a></li>
-                            <li><a href="<?php echo url_for('@budget_list') ?>"><?php echo __('Budgets') ?></a></li>
-                            <li><a href="<?php echo url_for('@report_list') ?>"><?php echo __('Reports') ?></a></li>
+                            <li rel="account" class="dropdown">
+                                <a href="#" data-toggle="dropdown"><?php echo __('Accounts') ?> <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?php echo url_for('@account_list') ?>"><?php echo __('all') ?></a></li>
+                                    <li class="divider"></li>
+                                    <?php foreach ($sf_user->getGuardUser()->Accounts as $account) : ?>
+                                        <li><a href="<?php echo url_for('@account_view?id=' . $account->id)?>"><?php echo $account->name ?></a></li>
+                                    <?php endforeach ?>
+                                </ul>
+                            </li>
+                            <li rel="budget"><a href="<?php echo url_for('@budget_list') ?>"><?php echo __('Budgets') ?></a></li>
+                            <li rel="report"><a href="<?php echo url_for('@report_list') ?>"><?php echo __('Reports') ?></a></li>
                         <?php endif ?>
-                        <li><a href="<?php echo url_for('@about') ?>"><?php echo __('About') ?></a></li>
-                        <li><a href="<?php echo url_for('@contact') ?>"><?php echo __('Contact') ?></a></li>
+                        <li rel="about"><a href="<?php echo url_for('@about') ?>"><?php echo __('About') ?></a></li>
+                        <li rel="contact"><a href="<?php echo url_for('@contact') ?>"><?php echo __('Contact') ?></a></li>
                     </ul>
                     
                     <?php include_partial('global/usermenu') ?>
@@ -39,14 +47,14 @@
                     <h1><?php echo html_entity_decode($sf_user->getHeader()) ?></h1>
                 </div>
                 <div class="row">
-                    <div class="span16">
+                    <div class="span12">
                         <?php include_partial('global/flash') ?>
                         <?php echo $sf_content ?>
                     </div>
                 </div>
             </div>
 
-            <footer style="height:60px">
+            <footer style="height:60px; margin: 20px 0 0">
                 <p><a id="vanity_card" href="http://mydevnull.net" target="_blank">~/dev/null</a></p>
                 <p><img id="konami_img" style="display:none;height:10px" src="/images/konami_code.png" /></p>
             </footer>

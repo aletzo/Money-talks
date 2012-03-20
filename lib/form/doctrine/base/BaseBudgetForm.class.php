@@ -15,29 +15,25 @@ abstract class BaseBudgetForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'         => new sfWidgetFormInputHidden(),
-      'user_id'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'add_empty' => true)),
-      'amount'     => new sfWidgetFormInputText(),
-      'current'    => new sfWidgetFormInputText(),
-      'month'      => new sfWidgetFormInputText(),
-      'year'       => new sfWidgetFormInputText(),
-      'deleted_at' => new sfWidgetFormDateTime(),
-      'created_at' => new sfWidgetFormDateTime(),
-      'updated_at' => new sfWidgetFormDateTime(),
-      'tags_list'  => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Tag')),
+      'id'            => new sfWidgetFormInputHidden(),
+      'user_id'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'add_empty' => true)),
+      'amount'        => new sfWidgetFormInputText(),
+      'tags_combined' => new sfWidgetFormInputCheckbox(),
+      'deleted_at'    => new sfWidgetFormDateTime(),
+      'created_at'    => new sfWidgetFormDateTime(),
+      'updated_at'    => new sfWidgetFormDateTime(),
+      'tags_list'     => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Tag')),
     ));
 
     $this->setValidators(array(
-      'id'         => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'user_id'    => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'required' => false)),
-      'amount'     => new sfValidatorString(array('max_length' => 100)),
-      'current'    => new sfValidatorString(array('max_length' => 100)),
-      'month'      => new sfValidatorInteger(array('required' => false)),
-      'year'       => new sfValidatorInteger(array('required' => false)),
-      'deleted_at' => new sfValidatorDateTime(array('required' => false)),
-      'created_at' => new sfValidatorDateTime(),
-      'updated_at' => new sfValidatorDateTime(),
-      'tags_list'  => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Tag', 'required' => false)),
+      'id'            => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'user_id'       => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('User'), 'required' => false)),
+      'amount'        => new sfValidatorString(array('max_length' => 100)),
+      'tags_combined' => new sfValidatorBoolean(array('required' => false)),
+      'deleted_at'    => new sfValidatorDateTime(array('required' => false)),
+      'created_at'    => new sfValidatorDateTime(),
+      'updated_at'    => new sfValidatorDateTime(),
+      'tags_list'     => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Tag', 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('budget[%s]');

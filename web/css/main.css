@@ -8,6 +8,7 @@ body {
 
 .label {
     text-transform: none;
+    font-weight: normal;
 }
 
 .container > footer p {
@@ -34,13 +35,13 @@ body {
     margin: -20px -20px 20px;
 }
 
-.content .span16 {
+.content .span12 {
     height: auto !important;
     height: 400px;
     min-height: 400px; 
 }
 
-.topbar .btn {
+.navbar .btn {
     border: 0;
 }
 
@@ -67,17 +68,38 @@ div#sfWebDebugBar {
 }
 
 
-div#filters .spacer {
-    display: inline;
-    margin: 0 20px;
-    width: 20px;
+div#filters .filters-group {
+    position: relative;
+    bottom: 10px;
 }
-
-div#filters label {
-    float: none;
-    width: auto;
+div#filters .filters-group.last {
+    left: 10px;
+}
+div#filters .filters-group .btn-group:after,
+div#filters .filters-group .btn-group:before {
+    clear: none;
+    display: block;
+}
+div#filters .filters-group .btn-group {
 }
 
 #usermenu {
     margin: 10px 0 0;
+}
+
+.table .progress {
+    margin-bottom: 2px;
+}
+
+.nav .caret {
+    border-top-color: #fff;
+}
+
+.progress span {
+    position: relative;
+    bottom: 18px;
+    left: 4px;
+}
+.progress span.white {
+    color: #fff;
 }

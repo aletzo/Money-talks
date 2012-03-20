@@ -1,4 +1,4 @@
-//Additional JavaScript Functions (for IE):
+//Additional JavaScript Function (for IE):
 if (!Array.indexOf) {
     Array.prototype.indexOf = function(obj){
         for (var i = 0; i < this.length; i++) {
@@ -11,6 +11,29 @@ if (!Array.indexOf) {
 }
 
 $(function() {
+
+    /************************
+   	 * begin the active menu
+   	 */
+    var foundActive = false;
+
+    $('ul.nav li').each(function(i, e) {
+        var $e  = $(e);
+
+        if (window.location.pathname.indexOf($e.attr('rel')) != -1) {
+            $e.addClass('active');
+            foundActive = true;
+        } else {
+            $e.removeClass('active');
+        }
+    });
+
+    if ( ! foundActive) {
+        $('ul.nav li:first').addClass('active');
+    }
+    /*
+   	 * end the active menu
+   	 **********************/
    
     /************************
    	 * begin the konami code
@@ -41,11 +64,11 @@ $(function() {
 
 
     /*******************
-   	 * begin the twipsy 
+   	 * begin the tooltip 
    	 */
-   	$('.tooltip').twipsy();
+//   	$('.tooltip').tooltip();
     /*
-   	 * end the twipsy
+   	 * end the tooltip
    	 *****************/
 
 
