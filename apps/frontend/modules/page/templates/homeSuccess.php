@@ -3,7 +3,6 @@
 <div class="row">    
     <div class="span4">&nbsp;</div>
     <div class="span8">
-
         <h3><?php echo __('What is this?') ?></h3>
         <p><?php echo __('This is a simple web app to log your expences and your income, so that you can keep track of what\'s happening.') ?></p>
 
@@ -17,6 +16,6 @@
         <p><?php echo __('Every single money number is stored encrypted. No-one can know your actual finance status, but you!') ?></p>
 
         <h3><?php echo __('Is it free?') ?></h3>
-        <p><?php echo __('The application will remain free, while it is under development / beta mode. There will be a small annual fee once it\'s ready, to cover the hosting and maintenance costs.') ?></p>
+        <p><?php echo __('The application will remain free, while it is under development / beta mode. There will be a small annual fee once it\'s ready, to cover the hosting and maintenance costs and the half of the fee will go to charity.') ?></p>
     </div>
 </div>

@@ -1,5 +1,7 @@
 <?php use_javascript('budget-delete', 'last') ?>
 
+<?php use_javascript('animate-progress-bar', 'last') ?>
+
 <?php use_helper('I18N') ?>
 
 <?php if ($budgets) : ?>
@@ -9,7 +11,7 @@
                 <th width="150"><?php echo __('Budget') ?></th>
                 <th width="60"><?php echo __('Amount') ?></th>
                 <th width="60"><?php echo __('Remaining') ?></th>
-                <th width="300" colspan="2"></th>
+                <th width="300" colspan="2"><?php echo $year . ' / ' . str_replace('0', '', $month) ?></th>
             </tr>
         </thead>
         <tbody>
@@ -27,9 +29,9 @@
                         <span class="<?php echo $budget['diff'] < 0 ? 'red' : 'green' ?>"><?php echo number_format($budget['diff'], 2) ?></span>
                     </td>
                     <td>
-                        <div class="progress progress-striped progress-<?php echo $budget['status'] ?>">
-                            <div class="bar" style="width: <?php echo $budget['percentage'] ?>%"> </div>
-                            <span<?php if ($budget['percentage'] > 10) echo ' class="white"' ?>><?php echo __('%money%', array('%money%' => number_format($budget['current'], 2))) ?></span>
+                            <div class="progress progress-striped progress-<?php echo $budget['status'] ?>">
+                                <div class="bar" style="width: 0%" rel="<?php echo $budget['percentage'] ?>"> </div>
+                                <span class="white"><?php echo __('%money%', array('%money%' => number_format($budget['current'], 2))) ?></span>
                         </div>
                     </td>
                     <td width="32">

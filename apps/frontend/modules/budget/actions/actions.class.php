@@ -26,18 +26,18 @@ class budgetActions extends sfActions
         $currentMonth = date('m');
         $currentYear  = date('Y');
 
-        $month = $request->getParameter('month', $currentMonth);
-        $year = $request->getParameter('year', $currentYear);
+        $this->month = $request->getParameter('month', $currentMonth);
+        $this->year = $request->getParameter('year', $currentYear);
 
-        $this->previous_month = $month == 1 ? 12 : $month - 1;
-        $this->previous_year = $this->previous_month == 12 ? $year - 1 : $year;
+        $this->previous_month = $this->month == 1 ? 12 : $this->month - 1;
+        $this->previous_year = $this->previous_month == 12 ? $this->year - 1 : $this->year;
 
-        $timestamp = mktime(0, 0, 0, $month, 1, $year);
+        $timestamp = mktime(0, 0, 0, $this->month, 1, $this->year);
         $currentTimestamp = mktime(0, 0, 0, $currentMonth, 1, $currentYear);
 
         if ($timestamp < $currentTimestamp) {
-            $this->next_month = $month == 12 ? 1 : $month + 1;
-            $this->next_year  = $this->next_month == 1 ? $year + 1 : $year;
+            $this->next_month = $this->month == 12 ? 1 : $this->month + 1;
+            $this->next_year  = $this->next_month == 1 ? $this->year + 1 : $this->year;
 
             $this->current_month_year = true;
         } else {
@@ -47,13 +47,13 @@ class budgetActions extends sfActions
             $this->current_month_year = false;
         }
 
-        BudgetTable::checkMonths($this->user_id, $this->symmetric_key, $month, $year);
+        BudgetTable::checkMonths($this->user_id, $this->symmetric_key, $this->month, $this->year);
 
         BudgetTable::calculateUserBudgets($this->user_id, $this->symmetric_key);
 
         $this->getUser()->setHeader(__('My budgets'));
 
-        $this->budgets = BudgetTable::fetchThisMonth($this->user_id, $this->symmetric_key, $month, $year);
+        $this->budgets = BudgetTable::fetchThisMonth($this->user_id, $this->symmetric_key, $this->month, $this->year);
     }
 
     public function executeNew(sfWebRequest $request)

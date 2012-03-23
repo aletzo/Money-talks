@@ -32,4 +32,9 @@ class pageActions extends sfActions
         $this->getUser()->setHeader('Lyrics');
     }
 
+    public function executeTips(sfWebRequest $request)
+    {
+        $this->getUser()->setHeader('Tips');
+    }
+
 }
