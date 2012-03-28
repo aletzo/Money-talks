@@ -17,7 +17,7 @@
             <label class="control-label"><?php echo __('Tags') ?></label>
             <div class="controls">
                 <input name="tags" class="span5" type="text" id="tags" />
-                <span class="help-inline"><?php echo __('Use the comma as delimeter (e.g. Home, Rent, Athens)') ?></span>
+                <span class="help-inline"><?php echo __('Use the comma as delimeter (e.g. Home, Rent, Athens). Leave empty for overall budget.') ?></span>
             </div>
         </div>
         <div class="control-group">
@@ -28,7 +28,7 @@
                     <b><?php echo __('OR') ?></b>: <?php echo __('Combine tags with <b>or</b> to find actions that have any of the tags (e.g. "Food <b>or</b> Beverages")') ?>
                 </label>
                 <label class="radio">
-                    <input type="radio" checked="checked" value="and" name="tags_combined">
+                    <input type="radio" value="and" name="tags_combined">
                     <b><?php echo __('AND') ?></b>: <?php echo __('Combine tags with <b>and</b> to find actions that have all the tags (e.g. "Food <b>and</b> Beverages")') ?>
                 </label>
             </div>

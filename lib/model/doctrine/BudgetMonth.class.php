@@ -43,8 +43,11 @@ class BudgetMonth extends BaseBudgetMonth
         $q = Doctrine_Query::create()
             ->from('Action a')
             ->leftJoin('a.Tags t')
-            ->whereIn('t.id', $tags)
             ->andWhere('a.date LIKE ?', '%-' . $month . '-%');
+
+        if ( ! empty($tags)) {
+            $q->whereIn('t.id', $tags);
+        }
 
         $results = $q->execute();
 

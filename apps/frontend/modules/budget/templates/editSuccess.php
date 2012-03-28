@@ -18,7 +18,7 @@
             <label class="control-label"><?php echo __('Tags') ?></label>
             <div class="controls">
                 <input name="tags" class="span5" type="text" id="tags" value="<?php echo $tags ?>" />
-                <span class="help-inline"><?php echo __('Use the comma as delimeter (e.g. Home, Rent, Athens)') ?></span>
+                <span class="help-inline"><?php echo __('Use the comma as delimeter (e.g. Home, Rent, Athens). Leave empty for overall budget') ?></span>
             </div>
         </div>
         <div class="form-actions">

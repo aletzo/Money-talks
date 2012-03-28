@@ -15,23 +15,37 @@
             </tr>
         </thead>
         <tbody>
+            <?php 
+                $summedAmount     = 0;
+                $summedRemaining  = 0;
+            ?>
             <?php foreach ($budgets as $budget) : ?>
+                <?php if (count($budget['tags'])) {
+                    $summedAmount     += $budget['amount'];
+                    $summedRemaining  += $budget['diff'];
+                } ?>
                 <tr>
                     <td>
-                        <?php foreach ($budget['tags'] as $tag) : ?>
-                            <span class="label label-inverse"><?php echo $tag ?></span>
-                        <?php endforeach ?>
+                        <?php if (count($budget['tags'])) : ?>
+                            <?php foreach ($budget['tags'] as $tag) : ?>
+                                <span class="label label-inverse"><?php echo $tag ?></span>
+                            <?php endforeach ?>
+                        <?php else : ?>
+                                <span class="label label-info" title="<?php echo __('Covers all your actions') ?>"><?php echo __('Overall') ?></span>
+                        <?php endif ?>
 
-                        <span class="label pull-right"><?php echo $budget['tags_combined'] ? __('and') : __('or') ?></span>
+                        <?php if (count($budget['tags']) > 1) : ?>
+                            <span class="label pull-right"><?php echo $budget['tags_combined'] ? __('and') : __('or') ?></span>
+                        <?php endif ?>
                     </td>
                     <td><?php echo number_format($budget['amount'], 2) ?></td>
                     <td>
                         <span class="<?php echo $budget['diff'] < 0 ? 'red' : 'green' ?>"><?php echo number_format($budget['diff'], 2) ?></span>
                     </td>
                     <td>
-                            <div class="progress progress-striped progress-<?php echo $budget['status'] ?>">
-                                <div class="bar" style="width: 0%" rel="<?php echo $budget['percentage'] ?>"> </div>
-                                <span class="white"><?php echo __('%money%', array('%money%' => number_format($budget['current'], 2))) ?></span>
+                        <div class="progress progress-striped progress-<?php echo $budget['status'] ?>">
+                            <div class="bar" style="width: 0%" rel="<?php echo $budget['percentage'] ?>"> </div>
+                            <span class="white"><?php echo __('%money%', array('%money%' => number_format($budget['current'], 2))) ?></span>
                         </div>
                     </td>
                     <td width="32">
@@ -40,6 +54,44 @@
                     </td>
                 </tr>
             <?php endforeach ?>
+
+            <?php
+            
+            $summedCurrent = $summedAmount - $summedRemaining;
+
+            $summedStatus = 'success';
+            $summedPercentage = $summedCurrent / $summedAmount * 100;
+
+            if ($summedPercentage >= 100) {
+                $summedStatus = 'danger';
+            } elseif ($summedPercentage > 90) {
+                $summedStatus = 'warning';
+            } elseif ($summedPercentage > 75) {
+                $summedStatus = 'success';
+            } else {
+                $summedStatus = 'info';
+            }
+            
+            ?>
+            <tr>
+                <td>
+                    <span class="label label-success" title="<?php echo __('Your budgets added together') ?>"><?php echo __('Total') ?></span>
+                </td>
+                <td>
+                    <?php echo number_format($summedAmount, 2) ?>
+                </td>
+                <td>
+                    <span class="<?php echo $summedRemaining < 0 ? 'red' : 'green' ?>"><?php echo number_format($summedRemaining, 2) ?></span>
+                </td>
+                <td>
+                    <div class="progress progress-striped progress-<?php echo $summedStatus ?>">
+                        <div class="bar" style="width: 0%" rel="<?php echo $summedPercentage ?>"> </div>
+                        <span class="white"><?php echo __('%money%', array('%money%' => number_format($summedCurrent, 2))) ?></span>
+                    </div>
+                </td>
+                <td width="32">
+                </td>
+            </tr>
         </tbody>
     </table>
 <?php else : ?>
